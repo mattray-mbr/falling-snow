@@ -1,0 +1,8 @@
+body{
+                margin: 40px;
+                background-color: #ccc;
+            }
+            #myCanvas{
+                background-color: #000;
+                border: 1px solid black;
+            }

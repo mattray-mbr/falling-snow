@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>snow flakes</title>
+        <link rel="stylesheet" href="style.css">
+        <script>
+            var bg = new Image();
+            bg.src= "snow_scene2.jpg";
+            function initCanvas (){
+                var ctx=document.getElementById('myCanvas').getContext('2d');
+                var cW= ctx.canvas.width, cH= ctx.canvas.height;
+                var flakes=[];
+                function addFlake(){
+                    var x= Math.floor(Math.random()*(cW+100)-110)+1;
+                    var y= -100;
+                    var s=Math.floor(Math.random()*3)+2;
+                    flakes.push({"x":x,"y":y,"s":s});
+                }
+                function snow(){
+                    addFlake();
+                    addFlake(); //more snow
+                    for(var i=0;i < flakes.length;i++){
+                        ctx.fillStyle= "rgba(255,255,255,.8)";
+                        ctx.beginPath();
+                        //arc(x,y,radius, startAngle, endAngle, anticlockwise)
+                        ctx.arc(flakes[i].x,flakes[i].y+=flakes[i].s/2,flakes[i].s/2,0,Math.PI*2,false);
+                        ctx.fill();
+                        if (flakes[i].y > cH+200) {
+                            flakes.splice(i,1);
+                        }
+                        document.getElementById('status').innerHTML="snow flakes on screen = "+flakes.length;
+                    }
+                }
+                function animate(){
+                    ctx.save();
+                    ctx.clearRect(0,0,cW,cH);
+                    ctx.drawImage(bg,0,0);
+                    ctx.rotate(-.3);
+                    snow();
+                    ctx.restore();
+                }
+                var animateInterval= setInterval(animate, 30);
+            }
+           window.addEventListener('load', function(event){
+            initCanvas();
+           });
+        </script>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="700px" height="392px"></canvas>
+        <h3 id="status"></h3>
+    </body>
+</html>
