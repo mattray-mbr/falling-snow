@@ -1,8 +1,17 @@
 body{
-                margin: 40px;
-                background-color: #ccc;
-            }
-            #myCanvas{
-                background-color: #000;
-                border: 1px solid black;
-            }
+    margin: 40px;
+    background-color: #ccc;
+}
+.contaier {
+	margin: 0 auto;
+	border: 3px solid #aaa;
+}
+#myCanvas{
+    background: url(images/snow3.jpg);
+    background-size: cover;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.start {
+
+}

@@ -2,16 +2,20 @@
 <html lang='en'>
     <head>
         <title>snow flakes</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
         <script>
             var bg = new Image();
-            bg.src= "snow_scene2.jpg";
+            var running = false;
+            var angle = .2; //initial start angle
+
             function initCanvas (){
                 var ctx=document.getElementById('myCanvas').getContext('2d');
                 var cW= ctx.canvas.width, cH= ctx.canvas.height;
                 var flakes=[];
                 function addFlake(){
-                    var x= Math.floor(Math.random()*(cW+100)-110)+1;
+                    var x= Math.floor(Math.random()*(cW+200)-150)+1;
                     var y= -100;
                     var s=Math.floor(Math.random()*3)+2;
                     flakes.push({"x":x,"y":y,"s":s});
@@ -21,11 +25,14 @@
                     addFlake(); //more snow
                     for(var i=0;i < flakes.length;i++){
                         ctx.fillStyle= "rgba(255,255,255,.8)";
+
+            			
+
                         ctx.beginPath();
                         //arc(x,y,radius, startAngle, endAngle, anticlockwise)
                         ctx.arc(flakes[i].x,flakes[i].y+=flakes[i].s/2,flakes[i].s/2,0,Math.PI*2,false);
                         ctx.fill();
-                        if (flakes[i].y > cH+200) {
+                        if (flakes[i].y > cH+300) {
                             flakes.splice(i,1);
                         }
                         document.getElementById('status').innerHTML="snow flakes on screen = "+flakes.length;
@@ -35,19 +42,33 @@
                     ctx.save();
                     ctx.clearRect(0,0,cW,cH);
                     ctx.drawImage(bg,0,0);
-                    ctx.rotate(-.3);
+                    ctx.rotate(angle);
                     snow();
                     ctx.restore();
                 }
-                var animateInterval= setInterval(animate, 30);
+                var animateInterval= setInterval(animate, 30); 
+
+                setInterval(changeAngle, 3000); //changing angles
+                function changeAngle () {
+                	angle = Math.random()/9;
+                }
             }
-           window.addEventListener('load', function(event){
-            initCanvas();
+           window.addEventListener('click', function(event){
+           	if(running === false) {
+            	initCanvas();
+            	running = true;
+           	} else {
+           		location.reload(); //reloads page instead of stopping script. 
+           	}
            });
         </script>
     </head>
     <body>
-        <canvas id="myCanvas" width="700px" height="392px"></canvas>
-        <h3 id="status"></h3>
+    	<div class="container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+        	<canvas id="myCanvas" width="700px" height="400px"></canvas>
+        	<h6 id="status"></h6>
+	        	<button class="start btn btn-success">START</button> <!-- these do nothing right now -->
+	        	<button class="stop btn btn-danger">STOP</button>
+        </div>
     </body>
 </html>
