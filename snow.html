@@ -14,19 +14,23 @@
                 var ctx=document.getElementById('myCanvas').getContext('2d');
                 var cW= ctx.canvas.width, cH= ctx.canvas.height;
                 var flakes=[];
-                function addFlake(){
+                    function addFlake(){
+
                     var x= Math.floor(Math.random()*(cW+200)-150)+1;
                     var y= -100;
                     var s=Math.floor(Math.random()*3)+2;
+                    ctx.rotate(.01);  
                     flakes.push({"x":x,"y":y,"s":s});
-                }
+                    }
                 function snow(){
+                    if(flakes.length <= 500){
                     addFlake();
                     addFlake(); //more snow
+                    }
                     for(var i=0;i < flakes.length;i++){
                         ctx.fillStyle= "rgba(255,255,255,.8)";
 
-            			
+                        
 
                         ctx.beginPath();
                         //arc(x,y,radius, startAngle, endAngle, anticlockwise)
@@ -39,19 +43,22 @@
                     }
                 }
                 function animate(){
+                    if(flakes.length <= 500){
                     ctx.save();
                     ctx.clearRect(0,0,cW,cH);
                     ctx.drawImage(bg,0,0);
-                    ctx.rotate(angle);
                     snow();
                     ctx.restore();
+                    ctx.clearRect(0,0,cW, cH);
+                } else {
+                }
                 }
                 var animateInterval= setInterval(animate, 30); 
 
-                setInterval(changeAngle, 3000); //changing angles
-                function changeAngle () {
-                	angle = Math.random()/9;
-                }
+                //setInterval(changeAngle, 3000); //changing angles
+                //function changeAngle () {
+                	//angle = Math.random()/9;
+                //}
             }
            window.addEventListener('click', function(event){
            	if(running === false) {
